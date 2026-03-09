@@ -44,7 +44,7 @@ We strictly adhere to the `PKcore.swift` and `PKparameter.swift` logic provided 
 
   **多语言支持**：原生支持 **简体中文、繁体中文、英语、日本语**。<br>
 
-* **Cloud Backup**: Support for uploading your local personal to third-party cloud drives such as `Google Drive`, `One Drive`, `Baiduyun Drive` and `Huawei Cloud` using official apis.<br>
+* **Cloud Backup**: Support for uploading your local personal data to third-party cloud drives such as `Google Drive`, `One Drive`, `Baiduyun Drive` and `Huawei Cloud` using official apis.<br>
 **云端备份支持**：利用官方接口允许您将本地数据备份至`Google Drive`、`One Drive`、`百度云盘`和`华为云空间`等第三方网盘。
 
 
