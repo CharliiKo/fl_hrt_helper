@@ -236,7 +236,7 @@ class _ControlPageState extends State<ControlPage> {
               ? null
               : (val) {
                   setModalState(() {
-                    onTypeChanged(val); // 关键：修改外部作用域变量
+                    onTypeChanged(val);
                   });
                 },
         ),
@@ -454,7 +454,11 @@ class _ControlPageState extends State<ControlPage> {
       },
       child: Scaffold(
         extendBody: true, // 让body延伸到底部，底部导航栏会悬浮在上面
+        extendBodyBehindAppBar: true,
         appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          surfaceTintColor: Colors.transparent,
           // 智能返回按钮
           leading: _history.isNotEmpty
               ? IconButton(
