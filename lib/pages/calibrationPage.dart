@@ -5,6 +5,6 @@ class CalibrationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: Text("这是校准页"));
+    return const Center(child: Text("施工中"));
   }
 }

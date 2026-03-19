@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import '../designs/selfPanel.dart';
 
 /// 首页
-/// 该页面展示了当前估算的血药浓度数值、一个简单的血药浓度变化图表，以及按周分组的给药记录列表。通过使用Card组件和自定义Painter，增强了界面的视觉效果和数据的可读性。同时提供了交互式的状态标签按钮和对话框，帮助用户更好地理解自己的数据状态。
+/// [1] 当前估算血药浓度
+/// [2] 血药浓度图表
+/// [3] 已增加的记录
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -9,6 +12,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
+/// 首页状态实现
 class _HomePageState extends State<HomePage> {
   double _scrollValue = 0.0; // 默认情况下显示最新数据（scrollValue = 0.0）
 
@@ -19,18 +23,18 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildConcentrationSection(context),
+          const SizedBox(height: 20),
+          _buildConcentrationSection(context), // 构建当前血药浓度Widget
           const SizedBox(height: 24),
-          _buildChartSection(),
+          _buildChartSection(), // 构建血药浓度图表Widget
           const SizedBox(height: 24),
-          _buildRecordsSection(),
+          _buildRecordsSection(), // 构建已增加的记录Widget
         ],
       ),
     );
   }
 
   /// 当前估算血药浓度
-  /// 该部分使用了Card组件进行美化，展示了当前估算的血药浓度数值，并且提供了两个状态标签按钮，分别用于说明当前数值处于标准范围内和数据可能不准确的情况。点击按钮会弹出相应的对话框，提供更详细的信息和提示。
   Widget _buildConcentrationSection(BuildContext context) {
     return Card(
       elevation: 2,
@@ -85,14 +89,14 @@ class _HomePageState extends State<HomePage> {
               spacing: 8,
               runSpacing: 8,
               children: [
-                _buildStatusButton(
+                buildStatusButton(
                   context,
                   icon: Icons.check_circle_outline,
                   label: '处于标准范围内',
                   color: Colors.green,
                   onTap: () => _showRangeDialog(context),
                 ),
-                _buildStatusButton(
+                buildStatusButton(
                   context,
                   icon: Icons.info_outline,
                   label: '数据可能不准确',
@@ -107,72 +111,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  /// 辅助构建状态标签按钮
-  /// 该方法创建了一个带有图标和文本的状态标签按钮，使用InkWell实现点击效果，并且通过传入的颜色参数来区分不同状态的视觉风格。
-  Widget _buildStatusButton(BuildContext context,
-      {required IconData icon,
-      required String label,
-      required Color color,
-      required VoidCallback onTap}) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(20),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.1),
-          border: Border.all(color: color.withValues(alpha: 0.2)),
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 14, color: color),
-            const SizedBox(width: 4),
-            Text(
-              label,
-              style: TextStyle(
-                  fontSize: 12, color: color, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  /// 标准范围说明对话框
-  /// 该对话框提供了当前标准血药浓度范围的说明，并且显示了用户当前估算值的位置，帮助用户理解自己的数据状态。同时在对话框底部添加了一个确认按钮，增强了交互体验。
-  void _showRangeDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('标准范围说明'),
-        content: const Text(
-            '当前标准血药浓度范围建议为：100.0 - 200.0 pmol/L。\n\n您的当前估算值为 125.4 pmol/L，处于正常参考区间内。'),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(context), child: const Text('确定')),
-        ],
-      ),
-    );
-  }
-
-  /// 准确性提示对话框
-  /// 该对话框解释了当前估算血药浓度数值的来源和局限性，强调了个体代谢差异可能导致的估算偏差，并且提醒用户该数值仅供参考，不能替代实际的血液检测结果。
-  void _showAccuracyTip(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('准确性提示'),
-        content: const Text(
-            '该数值是根据您的给药记录通过算法估算所得，并非实际血液检测结果。由于个体代谢差异，估算值可能与实际浓度存在偏差，仅供参考。'),
-        actions: [
-          TextButton(
-              onPressed: () => Navigator.pop(context), child: const Text('了解')),
-        ]
-        )
-    );
-  }
 
   /// 血药浓度图表
   /// 该部分使用了CustomPaint来绘制一个简单的折线图，并且通过Slider来控制显示的数据范围，实现了类似于滚动查看历史数据的效果。同时在图表下方添加了时间轴标签，增强了数据的可读性。
@@ -296,6 +234,42 @@ class _HomePageState extends State<HomePage> {
       ],
     );
   }
+
+  /// 标准范围说明对话框
+  /// 该对话框提供了当前标准血药浓度范围的说明，并且显示了用户当前估算值的位置，帮助用户理解自己的数据状态。同时在对话框底部添加了一个确认按钮，增强了交互体验。
+  void _showRangeDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('标准范围说明'),
+        content: const Text(
+            '当前标准血药浓度范围建议为：100.0 - 200.0 pmol/L。\n\n您的当前估算值为 125.4 pmol/L，处于正常参考区间内。'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context), child: const Text('确定')),
+        ],
+      ),
+    );
+  }
+
+  /// 准确性提示对话框
+  /// 该对话框解释了当前估算血药浓度数值的来源和局限性，强调了个体代谢差异可能导致的估算偏差，并且提醒用户该数值仅供参考，不能替代实际的血液检测结果。
+  void _showAccuracyTip(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('准确性提示'),
+        content: const Text(
+            '该数值是根据您的给药记录通过算法估算所得，并非实际血液检测结果。由于个体代谢差异，估算值可能与实际浓度存在偏差，仅供参考。'),
+        actions: [
+          TextButton(
+              onPressed: () => Navigator.pop(context), child: const Text('了解')),
+        ]
+        )
+    );
+  }
+
+
 
   /// 构建单周记录卡片
   /// 该方法根据传入的周数据构建一个Card组件，展示该周的时间范围和记录列表。每条记录使用ListTile展示，包含给药次数、时间和剂量信息，并且在标题栏显示该周的记录数量。

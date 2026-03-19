@@ -80,12 +80,12 @@ class _ControlPageState extends State<ControlPage> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // 1. 头部标题
+                    // 头部标题
                     _buildBottomSheetHeader(
                       _selectedIndex == PageIndex.home ? "新增记录" : "新增校准",
                     ),
 
-                    // 2. 表单区域
+                    // 表单区域
                     if (_selectedIndex == PageIndex.home)
                       _buildMedicationForm(
                         context,
@@ -110,7 +110,7 @@ class _ControlPageState extends State<ControlPage> {
 
                     const SizedBox(height: 30),
 
-                    // 3. 保存按钮
+                    // 保存按钮
                     _buildSaveButton(context, () {
                       if (_selectedIndex == PageIndex.home) {
                         print("保存给药数据: ${doseController.text}");
@@ -411,7 +411,9 @@ class _ControlPageState extends State<ControlPage> {
     return DateTime(date.year, date.month, date.day, time.hour, time.minute);
   }
 
-  /// 统一的选择器主题构建器：实现白底蓝调风格
+  /// 统一的选择器主题构建器
+  /// [1] 日期
+  /// [2] 时间
   Widget _pickerThemeBuilder(BuildContext context, Widget? child) {
     return Theme(
       data: Theme.of(context).copyWith(
@@ -479,16 +481,20 @@ class _ControlPageState extends State<ControlPage> {
         floatingActionButton:
             (_selectedIndex == PageIndex.home ||
                 _selectedIndex == PageIndex.calibration)
-            ? FloatingActionButton.extended(
-                onPressed: () {
-                  _showMyBottomSheet(context);
-                },
+            ?FloatingActionButton.extended(
+                onPressed: () => _showMyBottomSheet(context),
+                // 关键：设置为体育场形状（胶囊型）喵
+                shape: const StadiumBorder(), 
+                // 样式微调
+                elevation: 2, 
+                backgroundColor: Colors.pinkAccent.withValues(alpha: 0.6),
+                foregroundColor: Colors.white,
                 icon: const Icon(Icons.add),
                 label: Text(
-                  ((_selectedIndex == PageIndex.home) ? "新增记录" : "新增校准"),
+                  (_selectedIndex == PageIndex.home ? "新增记录" : "新增校准"),
+                  style: const TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2),
                 ),
-              )
-            : null,
+              ): null,
         bottomNavigationBar: BottomBar(
           currentIndex: _selectedIndex,
           onTap: (index) => _changePage(index), // 传递回调函数给 BottomBar
