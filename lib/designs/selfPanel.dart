@@ -39,7 +39,7 @@ class MenuOption extends StatelessWidget {
   final String title;
   final VoidCallback onTap;
 
-  const MenuOption({
+  const MenuOption({super.key, 
     required this.icon,
     required this.title,
     required this.onTap,
