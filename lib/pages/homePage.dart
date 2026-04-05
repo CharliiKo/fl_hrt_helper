@@ -23,7 +23,7 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          const SizedBox(height: 60),
           _buildConcentrationSection(context), // 构建当前血药浓度Widget
           const SizedBox(height: 24),
           _buildChartSection(), // 构建血药浓度图表Widget

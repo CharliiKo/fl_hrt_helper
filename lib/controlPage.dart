@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'pages/homePage.dart';
 import 'pages/calibrationPage.dart';
 import 'pages/personPage.dart';
+import 'pages/todoPage.dart';
 
 enum PageIndex {
   home(0, 'home'),
@@ -133,6 +134,7 @@ class _ControlPageState extends State<ControlPage> {
     );
   }
 
+
   /// 函数 A: 构建顶部标题和装饰条
   Widget _buildBottomSheetHeader(String title) {
     return Column(
@@ -262,7 +264,7 @@ class _ControlPageState extends State<ControlPage> {
     );
   }
 
-  /// 函数 D: 构建设备校准表单 (校准页专用)
+  /// 函数 D: 构建校准表单 (校准页专用)
   Widget _buildCalibrationForm(
     BuildContext context,
     DateTime selectedDateTime,
@@ -475,7 +477,7 @@ class _ControlPageState extends State<ControlPage> {
         ),
         body: switch (_selectedIndex) {
           PageIndex.home => const HomePage(),
-          PageIndex.calibration => const CalibrationPage(),
+          PageIndex.calibration => const TodoPage(),
           PageIndex.person => const PersonPage(),
         },
         floatingActionButton:
@@ -483,7 +485,6 @@ class _ControlPageState extends State<ControlPage> {
                 _selectedIndex == PageIndex.calibration)
             ?FloatingActionButton.extended(
                 onPressed: () => _showMyBottomSheet(context),
-                // 关键：设置为体育场形状（胶囊型）喵
                 shape: const StadiumBorder(), 
                 // 样式微调
                 elevation: 2, 
